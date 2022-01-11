@@ -11,26 +11,26 @@ datasource db {
 }
 
 model User {
-  userId      BigInt      @id @default(autoincrement())
-  email       String
-  name        String
-  userName    String      @unique
-  password    String
-  phoneNumber String
-  roles       RolesUser[]
+  userId          Int              @id @default(autoincrement())
+  email           String
+  name            String
+  userName        String           @unique
+  password        String
+  phoneNumber     String
+  role            Role             @relation(fields: [roleId], references: [roleId])
+  roleId          Int
+  SaleInformation SaleInformation?
 }
 
 model Role {
-  roleId   Int         @id @default(autoincrement())
-  nameRole String      @unique
-  users    RolesUser[]
+  roleId   Int    @id @default(autoincrement())
+  nameRole String @unique
+  User     User[]
 }
 
-model RolesUser {
-  rolesUserId     BigInt @id @default(autoincrement())
-  role   Role   @relation(fields: [roleId], references: [roleId])
-  roleId Int
-
-  User   User?   @relation(fields: [userId], references: [userId])
-  userId BigInt?
+model SaleInformation {
+  idSaleInformation Int    @id @default(autoincrement())
+  cnpj              String
+  user              User   @relation(fields: [userId], references: [userId])
+  userId            Int    @unique // relation scalar field (used in the `@relation` attribute above)
 }
