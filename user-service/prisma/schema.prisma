@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model UserInfo {
   userId          Int              @id @default(autoincrement())
   email           String
   name            String
@@ -23,14 +23,14 @@ model User {
 }
 
 model Role {
-  roleId   Int    @id @default(autoincrement())
-  nameRole String @unique
-  User     User[]
+  roleId   Int        @id @default(autoincrement())
+  nameRole String     @unique
+  User     UserInfo[]
 }
 
 model SaleInformation {
-  idSaleInformation Int    @id @default(autoincrement())
+  idSaleInformation Int      @id @default(autoincrement())
   cnpj              String
-  user              User   @relation(fields: [userId], references: [userId])
-  userId            Int    @unique // relation scalar field (used in the `@relation` attribute above)
+  user              UserInfo @relation(fields: [userId], references: [userId])
+  userId            Int      @unique // relation scalar field (used in the `@relation` attribute above)
 }
